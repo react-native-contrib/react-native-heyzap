@@ -1,0 +1,31 @@
+{
+  "name": "react-native-heyzap",
+  "version": "0.0.1",
+  "description": "A Heyzap integration for React Native projects",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heyzap/react-native-heyzap.git"
+  },
+  "author": "Heyzap (https://github.com/Heyzap)",
+  "contributors": [
+    "Hassan Khan <contact@hassankhan.me>"
+  ],
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Heyzap/react-native-heyzap/issues"
+  },
+  "keywords": [
+    "react-native",
+    "native-modules",
+    "heyzap"
+  ],
+  "homepage": "https://github.com/Heyzap/react-native-heyzap#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
