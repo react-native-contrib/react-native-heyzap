@@ -7,7 +7,7 @@
 var NativeHeyzap = require('NativeModules').Heyzap;
 
 /**
- * High-level docs for the Heyzap iOS API can be written here.
+ * High-level docs for the Heyzap API can be written here.
  */
 
 var Heyzap = {
