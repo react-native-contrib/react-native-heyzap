@@ -14,6 +14,11 @@
   "engines": {
     "node": ">= 4.0.0"
   },
+  "rnpm": {
+    "commands": {
+      "prelink": "./hooks/downloadHeyzapJar"
+    }
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Heyzap/react-native-heyzap/issues"
@@ -24,8 +29,11 @@
     "heyzap"
   ],
   "homepage": "https://github.com/Heyzap/react-native-heyzap#readme",
-  "dependencies": {
+  "peerDependencies": {
+    "react-native": ">=0.20"
   },
-  "devDependencies": {
-  }
+  "dependencies": {
+    "adm-zip": "^0.4.7"
+  },
+  "devDependencies": {}
 }
