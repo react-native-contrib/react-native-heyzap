@@ -1,3 +1,9 @@
+node_modules
+
+android/*.iml
 android/build
 android/libs
-node_modules
+
+ios/*/project.xcworkspace
+ios/*/xcuserdata
+ios/*.framework
