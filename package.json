@@ -2,7 +2,7 @@
   "name": "react-native-heyzap",
   "version": "0.0.1",
   "description": "A Heyzap integration for React Native projects",
-  "main": "build/Heyzap.js",
+  "main": "src/Heyzap.js",
   "scripts": {
     "test": "istanbul cover _mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js",
     "test1": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/",
