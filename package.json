@@ -2,9 +2,9 @@
   "name": "react-native-heyzap",
   "version": "0.0.1",
   "description": "A Heyzap integration for React Native projects",
-  "main": "Heyzap.js",
+  "main": "src/Heyzap.js",
   "scripts": {
-    "test": "eslint Heyzap.js test/ && istanbul cover _mocha --recursive test/"
+    "test": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "Hassan Khan <contact@hassankhan.me>"
   ],
   "engines": {
-    "node": ">= 4.0.0"
+    "node": ">= 4.1.0"
   },
   "rnpm": {
     "commands": {

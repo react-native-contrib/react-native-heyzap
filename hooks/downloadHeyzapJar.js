@@ -4,7 +4,6 @@ const AdmZip = require('adm-zip');
 const path = require('path');
 const http = require('http');
 const url = require('url');
-const fs = require('fs');
 
 const fileUrl = 'https://d2jks9au6e6w94.cloudfront.net/sdk/heyzap-ads-sdk-9.5.7.zip';
 
@@ -28,7 +27,7 @@ http.get(options, function(res) {
         }).on('end', function() {
             var buf = new Buffer(dataLen);
 
-            for (var i=0, len = data.length, pos = 0; i < len; i++) {
+            for (var i = 0, len = data.length, pos = 0; i < len; i++) {
                 data[i].copy(buf, pos);
                 pos += data[i].length;
             }

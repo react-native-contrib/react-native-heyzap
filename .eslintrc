@@ -20,6 +20,7 @@
     "__dirname": false,
     "__fbBatchedBridgeConfig": false,
     "alert": false,
+    "Buffer": false,
     "cancelAnimationFrame": false,
     "clearImmediate": true,
     "clearInterval": false,

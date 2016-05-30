@@ -2,12 +2,11 @@
 
 let chai   = require('chai');
 let mock = require('mock-require');
-// let rewire = require('rewire');
 let sinon = require('sinon');
 
 let expect = chai.expect;
 
-let NativeHeyzapMock = {
+let heyzapStub = sinon.stub({
     initialize: (publisherId) => {},
     showDebugPanel: () => {},
     showInterstitialAd: () => {},
@@ -15,14 +14,12 @@ let NativeHeyzapMock = {
     showVideoAd: () => {},
     fetchIncentivizedAd: () => {},
     showIncentivizedAd: () => {},
-};
-
-let stub = sinon.stub(NativeHeyzapMock);
+});
 
 mock('NativeModules', {
-    Heyzap: stub,
+    Heyzap: heyzapStub,
 });
-let heyzap = require('../Heyzap');
+let heyzap = require('../src/Heyzap');
 
 describe('Heyzap', () => {
 
@@ -30,43 +27,43 @@ describe('Heyzap', () => {
         let publisherId = 'publisher-id';
         heyzap.initialize(publisherId);
 
-        expect(stub.initialize.calledWith(publisherId)).to.be.true;
+        expect(heyzapStub.initialize.calledWith(publisherId)).to.be.true;
     });
 
     it('should show the debug panel', () => {
         heyzap.showDebugPanel();
 
-        expect(stub.showDebugPanel.calledOnce).to.be.true;
+        expect(heyzapStub.showDebugPanel.calledOnce).to.be.true;
     });
 
     it('should show an interstitial ad', () => {
         heyzap.showInterstitialAd();
 
-        expect(stub.showInterstitialAd.calledOnce).to.be.true;
+        expect(heyzapStub.showInterstitialAd.calledOnce).to.be.true;
     });
 
     it('should fetch a video ad', () => {
         heyzap.fetchVideoAd();
 
-        expect(stub.fetchVideoAd.calledOnce).to.be.true;
+        expect(heyzapStub.fetchVideoAd.calledOnce).to.be.true;
     });
 
     it('should show a video ad', () => {
         heyzap.showVideoAd();
 
-        expect(stub.showVideoAd.calledOnce).to.be.true;
+        expect(heyzapStub.showVideoAd.calledOnce).to.be.true;
     });
 
     it('should fetch an incentivized ad', () => {
         heyzap.fetchIncentivizedAd();
 
-        expect(stub.fetchIncentivizedAd.calledOnce).to.be.true;
+        expect(heyzapStub.fetchIncentivizedAd.calledOnce).to.be.true;
     });
 
     it('should show an incentivized ad', () => {
         heyzap.showIncentivizedAd();
 
-        expect(stub.showIncentivizedAd.calledOnce).to.be.true;
+        expect(heyzapStub.showIncentivizedAd.calledOnce).to.be.true;
     });
 
 });

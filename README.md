@@ -1,5 +1,7 @@
 # react-native-heyzap
 
+![Heyzap logo](https://d2jks9au6e6w94.cloudfront.net/assets/new_dashboard/heybar-logo.png)
+
 [![npm version][ico-npm]][link-npm]
 [![License][ico-license]](LICENSE.md)
 [![Travis CI][ico-travis]][link-travis]
@@ -14,11 +16,38 @@ Adds Heyzap integrations for React Native projects on Android and iOS.
 ## Requirements
 
 - node >= 4.1
+- rnpm >= 1.6
 
 ## Installation
 
 ```bash
-$ npm install react-native-heyzap
+$ rnpm install react-native-heyzap
+```
+
+## Usage
+
+Add the following to your `index.js`:
+
+```js
+let Heyzap = require('react-native-heyzap');
+
+class AwesomeApp extends Component {
+  constructor(props) {
+    super(props);
+    Heyzap.initialize('your-publisher-id');
+  }
+}
+```
+
+You can then call any of the following methods:
+
+```js
+Heyzap.showDebugPanel();
+Heyzap.showInterstitialAd();
+Heyzap.fetchVideoAd();
+Heyzap.showVideoAd();
+Heyzap.fetchIncentivizedAd();
+Heyzap.showIncentivizedAd();
 ```
 
 ## License
