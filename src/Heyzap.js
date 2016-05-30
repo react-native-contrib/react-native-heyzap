@@ -1,7 +1,16 @@
 'use strict';
 
-import { Component, PropTypes } from 'react';
-import { NativeModules, NativeAppEventEmitter } from 'react-native';
+import {
+    Component,
+    Platform,
+    PropTypes,
+} from 'react';
+
+import {
+    DeviceEventEmitter,
+    NativeModules,
+    NativeAppEventEmitter,
+} from 'react-native';
 
 let NativeHeyzap = NativeModules.Heyzap;
 
@@ -13,6 +22,11 @@ class Heyzap extends Component {
     constructor(props) {
         super(props);
         NativeHeyzap.initialize(props.publisherId);
+
+        // Set platform emitter
+        this.emitter = Platform.OS === 'ios'
+            ? NativeAppEventEmitter
+            : DeviceEventEmitter;
 
         // Bind listeners
         this.onReceiveAd = this.onReceiveAd.bind(this);
@@ -182,14 +196,14 @@ class Heyzap extends Component {
      * @return {void}
      */
     componentWillMount() {
-        NativeAppEventEmitter.addListener('DidReceiveAd', this.props.onReceiveAd);
-        NativeAppEventEmitter.addListener('DidFailToReceiveAd', this.props.onFailToReceiveAd);
-        NativeAppEventEmitter.addListener('DidShowAd', this.props.onShowAd);
-        NativeAppEventEmitter.addListener('DidFailToShowAd', this.props.onFailToShowAd);
-        NativeAppEventEmitter.addListener('DidClickAd', this.props.onClickAd);
-        NativeAppEventEmitter.addListener('DidHideAd', this.props.onHideAd);
-        NativeAppEventEmitter.addListener('WillStartAdAudio', this.props.onStartAdAudio);
-        NativeAppEventEmitter.addListener('DidFinishAdAudio', this.props.onFinishAdAudio);
+        this.emitter.addListener('DidReceiveAd', this.props.onReceiveAd);
+        this.emitter.addListener('DidFailToReceiveAd', this.props.onFailToReceiveAd);
+        this.emitter.addListener('DidShowAd', this.props.onShowAd);
+        this.emitter.addListener('DidFailToShowAd', this.props.onFailToShowAd);
+        this.emitter.addListener('DidClickAd', this.props.onClickAd);
+        this.emitter.addListener('DidHideAd', this.props.onHideAd);
+        this.emitter.addListener('WillStartAdAudio', this.props.onStartAdAudio);
+        this.emitter.addListener('DidFinishAdAudio', this.props.onFinishAdAudio);
     }
 
     /**
@@ -198,7 +212,7 @@ class Heyzap extends Component {
      * @return {void}
      */
     componentWillUnmount() {
-        NativeAppEventEmitter.removeAllListeners();
+        this.emitter.removeAllListeners();
     }
 
     render() {
