@@ -5,6 +5,8 @@
 
 - Write documentation
 
+- Options (http://cocoadocs.org/docsets/Heyzap/9.5.7/Constants/HZAdOptions.html)
+
 - Add events
     - Android
     - iOS (Mostly done)
@@ -24,7 +26,7 @@
     - Use Carthage for iOS dependency management
     - Add tests for Java
 
-- Options (http://cocoadocs.org/docsets/Heyzap/9.5.7/Constants/HZAdOptions.html)
+
 - Tags
 - Server-side Incentivized Callbacks
 - Remote Data

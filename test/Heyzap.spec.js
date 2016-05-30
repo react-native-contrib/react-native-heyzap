@@ -4,6 +4,7 @@ let chai   = require('chai');
 let rewire = require('rewire');
 let sinon = require('sinon');
 require('react-native-mock/mock');
+import { shallow, mount, render } from 'enzyme';
 
 let expect = chai.expect;
 

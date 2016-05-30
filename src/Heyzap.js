@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
 import { NativeModules, NativeAppEventEmitter } from 'react-native';
 
 let NativeHeyzap = NativeModules.Heyzap;
@@ -176,6 +176,11 @@ class Heyzap extends Component {
 
     /* Component lifecycle */
 
+    /**
+     * Invoked once, immediately before the initial rendering occurs.
+     *
+     * @return {void}
+     */
     componentWillMount() {
         NativeAppEventEmitter.addListener('DidReceiveAd', this.props.onReceiveAd);
         NativeAppEventEmitter.addListener('DidFailToReceiveAd', this.props.onFailToReceiveAd);
@@ -187,6 +192,11 @@ class Heyzap extends Component {
         NativeAppEventEmitter.addListener('DidFinishAdAudio', this.props.onFinishAdAudio);
     }
 
+    /**
+     * Invoked immediately before a component is unmounted from the DOM.
+     *
+     * @return {void}
+     */
     componentWillUnmount() {
         NativeAppEventEmitter.removeAllListeners();
     }

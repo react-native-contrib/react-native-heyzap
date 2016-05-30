@@ -4,7 +4,8 @@
   "description": "A Heyzap integration for React Native projects",
   "main": "build/Heyzap.js",
   "scripts": {
-    "test": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/",
+    "test": "istanbul cover _mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js",
+    "test1": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/",
     "build": "babel src --out-dir build"
   },
   "repository": {
@@ -46,11 +47,13 @@
     "babel-eslint": "^6.0.4",
     "babel-preset-react-native": "^1.9.0",
     "chai": "^3.5.0",
+    "enzyme": "^2.3.0",
     "eslint": "^2.11.0",
     "eslint-plugin-react": "^5.1.1",
     "istanbul": "^0.4.3",
     "mocha": "^2.5.3",
     "react": "^15.0.2",
+    "react-addons-test-utils": "^15.0.2",
     "react-native": "^0.26.2",
     "react-native-mock": "^0.2.2",
     "rewire": "^2.5.1",
