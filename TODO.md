@@ -7,8 +7,8 @@
 
 - Add events
     - Android
-    - iOS
-    - Javascript
+    - iOS (Mostly done)
+    - Javascript (Mostly done)
 
 - Error handling
     - Android

@@ -83,34 +83,93 @@ class Heyzap extends Component {
 
     /* Event listeners */
 
+    /**
+     * Triggers `this.props.onReceiveAd` when an ad is received by Heyzap.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onReceiveAd(event) {
         this.props.onReceiveAd(event);
     }
 
+    /**
+     * Triggers `this.props.onFailToReceiveAd` when an ad failed to be received
+     * by Heyzap.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onFailToReceiveAd(event) {
         this.props.onFailToReceiveAd(event);
     }
 
+    /**
+     * Triggers `this.props.onShowAd` when an ad is displayed.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onShowAd(event) {
         this.props.onShowAd(event);
     }
 
+    /**
+     * Triggers `this.props.onFailToShowAd` when an ad failed to be displayed.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onFailToShowAd(event) {
         this.props.onFailToShowAd(event);
     }
 
+    /**
+     * Triggers `this.props.onClickAd` when an ad is clicked.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onClickAd(event) {
         this.props.onClickAd(event);
     }
 
+    /**
+     * Triggers `this.props.onHideAd` when an ad is dismissed.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onHideAd(event) {
         this.props.onHideAd(event);
     }
 
+    /**
+     * Triggers `this.props.onStartAdAudio` when an ad is about to start playing
+     * audio.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onStartAdAudio(event) {
         this.props.onStartAdAudio(event);
     }
 
+    /**
+     * Triggers `this.props.onFinishAdAudio` when an ad has finished playing
+     * audio.
+     *
+     * @param  {Object} event An object containing the event data
+     *
+     * @return {void}
+     */
     onFinishAdAudio(event) {
         this.props.onFinishAdAudio(event);
     }
