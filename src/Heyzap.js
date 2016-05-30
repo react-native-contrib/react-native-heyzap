@@ -84,44 +84,55 @@ class Heyzap extends Component {
     /* Event listeners */
 
     onReceiveAd(event) {
-        NativeAppEventEmitter.addListener('DidReceiveAd', this.props.onReceiveAd);
+        this.props.onReceiveAd(event);
     }
 
     onFailToReceiveAd(event) {
-        NativeAppEventEmitter.addListener('DidFailToReceiveAd', this.props.onFailToReceiveAd);
+        this.props.onFailToReceiveAd(event);
     }
 
     onShowAd(event) {
-        NativeAppEventEmitter.addListener('DidShowAd', this.props.onShowAd);
+        this.props.onShowAd(event);
     }
 
     onFailToShowAd(event) {
-        NativeAppEventEmitter.addListener('DidFailToShowAd', this.props.onFailToShowAd);
+        this.props.onFailToShowAd(event);
     }
 
     onClickAd(event) {
-        NativeAppEventEmitter.addListener('DidClickAd', this.props.onClickAd);
+        this.props.onClickAd(event);
     }
 
     onHideAd(event) {
-        NativeAppEventEmitter.addListener('DidHideAd', this.props.onHideAd);
+        this.props.onHideAd(event);
     }
 
     onStartAdAudio(event) {
-        NativeAppEventEmitter.addListener('WillStartAdAudio', this.props.onStartAdAudio);
+        this.props.onStartAdAudio(event);
     }
 
     onFinishAdAudio(event) {
-        NativeAppEventEmitter.addListener('DidFinishAdAudio', this.props.onFinishAdAudio);
+        this.props.onFinishAdAudio(event);
     }
 
     /* Component lifecycle */
+
+    componentWillMount() {
+        NativeAppEventEmitter.addListener('DidReceiveAd', this.props.onReceiveAd);
+        NativeAppEventEmitter.addListener('DidFailToReceiveAd', this.props.onFailToReceiveAd);
+        NativeAppEventEmitter.addListener('DidShowAd', this.props.onShowAd);
+        NativeAppEventEmitter.addListener('DidFailToShowAd', this.props.onFailToShowAd);
+        NativeAppEventEmitter.addListener('DidClickAd', this.props.onClickAd);
+        NativeAppEventEmitter.addListener('DidHideAd', this.props.onHideAd);
+        NativeAppEventEmitter.addListener('WillStartAdAudio', this.props.onStartAdAudio);
+        NativeAppEventEmitter.addListener('DidFinishAdAudio', this.props.onFinishAdAudio);
+    }
+
     componentWillUnmount() {
         NativeAppEventEmitter.removeAllListeners();
     }
 
     render() {
-        NativeHeyzap.showDebugPanel();
         return null;
     }
 };
