@@ -1,6 +1,10 @@
+.DS_*
+*.log
 node_modules
+coverage
 
 android/*.iml
+android/.idea
 android/build
 android/libs
 

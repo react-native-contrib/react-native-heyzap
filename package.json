@@ -2,7 +2,10 @@
   "name": "react-native-heyzap",
   "version": "0.0.1",
   "description": "A Heyzap integration for React Native projects",
-  "main": "index.js",
+  "main": "Heyzap.js",
+  "scripts": {
+    "test": "eslint Heyzap.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Heyzap/react-native-heyzap.git"
@@ -35,5 +38,9 @@
   "dependencies": {
     "adm-zip": "^0.4.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-eslint": "^6.0.4",
+    "eslint": "^2.11.0",
+    "eslint-plugin-react": "^5.1.1"
+  }
 }
