@@ -1,6 +1,7 @@
 'use strict';
 
-let NativeHeyzap = require('NativeModules').Heyzap;
+let NativeModules = require('NativeModules');
+let NativeHeyzap = NativeModules.Heyzap;
 
 /**
  * High-level docs for the Heyzap API can be written here.
