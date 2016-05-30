@@ -4,10 +4,11 @@ node_modules
 coverage
 
 android/*.iml
+android/local.properties
 android/.idea
 android/build
 android/libs
 
 ios/*/project.xcworkspace
 ios/*/xcuserdata
-ios/*.framework
+ios/**/*.framework

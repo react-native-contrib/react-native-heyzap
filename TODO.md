@@ -11,7 +11,10 @@
     - Javascript
 
 - Add mocking library for JS: https://github.com/lelandrichardson/react-native-mock/issues/57
+
 - Add tests for ObjC
+    - Use Carthage for iOS dependency management
+
 - Add tests for Java
 
-- Use Carthage for iOS dependency management
+- Banner ads
