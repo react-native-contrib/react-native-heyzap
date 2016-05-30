@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 
 const AdmZip = require('adm-zip');
@@ -8,7 +10,7 @@ const url = require('url');
 const fileUrl = 'https://d2jks9au6e6w94.cloudfront.net/sdk/heyzap-ads-sdk-9.5.7.zip';
 
 const sourceFile = 'heyzap-ads-sdk-9.5.7/android-sdk/heyzap-ads-sdk-9.5.7.jar';
-const outputDir  = path.join(__dirname, 'android', 'libs');
+const outputDir  = path.join(__dirname, '..', 'android', 'libs');
 
 var options = {
     host: url.parse(fileUrl).host,

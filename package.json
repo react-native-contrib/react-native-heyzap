@@ -19,7 +19,7 @@
   },
   "rnpm": {
     "commands": {
-      "prelink": "./hooks/downloadHeyzapJar"
+      "prelink": "node_modules/react-native-heyzap/hooks/downloadHeyzapJar.js"
     }
   },
   "license": "MIT",
