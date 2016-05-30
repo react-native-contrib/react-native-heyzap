@@ -1,6 +1,7 @@
 'use strict';
 
-let NativeModules = require('NativeModules');
+import { NativeModules } from 'react-native';
+
 let NativeHeyzap = NativeModules.Heyzap;
 
 /**

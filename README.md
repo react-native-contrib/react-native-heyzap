@@ -24,6 +24,20 @@ Adds Heyzap integrations for React Native projects on Android and iOS.
 $ rnpm install react-native-heyzap
 ```
 
+### iOS
+
+After `rnpm` has linked the package, there are still a few steps required.
+
+Create a new group in your project called 'Frameworks', then right-click and
+select 'Add Files to...'. Find the `HeyzapAds.framework` file, and check the 'Copy items
+if needed' option.
+
+Then go to 'Build Phases > Link Binary With Libraries' and add `libxml2` and
+`libsqlite3`.
+
+Finally, open 'Libraries' from the navigator, and expand `Heyzap.xcodeproj`. If
+it already has a `HeyzapAds.framework` file, remove it and re-add as before.
+
 ## Usage
 
 Add the following to your `index.js`:
