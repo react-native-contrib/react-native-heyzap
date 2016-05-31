@@ -6,6 +6,12 @@
 
 RCT_EXPORT_MODULE(Heyzap)
 
+NSString *const ERROR_DOMAIN = @"HEYZAP";
+
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();
 }
@@ -72,14 +78,11 @@ RCT_EXPORT_MODULE(Heyzap)
            object:nil];
 }
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 RCT_EXPORT_METHOD(start
                   : (NSString *)publisherId resolver
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject) {
+
   [HeyzapAds startWithPublisherID:publisherId];
   if ([HeyzapAds isStarted]) {
     [self addObservers];
@@ -95,25 +98,81 @@ RCT_EXPORT_METHOD(start
     return resolve(options);
   }
 
-  NSError *error = [NSError errorWithDomain:@"HEYZAP"
-                                       code:-57
-                                   userInfo:@"Heyzap failed to start"];
-  return reject(@"HEYZAP", error.userInfo, error);
+  NSString *errorMessage = @"Heyzap failed to start";
+  return reject(
+      ERROR_DOMAIN, errorMessage,
+      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
 }
 
 RCT_EXPORT_METHOD(showDebugPanel) {
   [HeyzapAds presentMediationDebugViewController];
 }
 
-RCT_EXPORT_METHOD(showInterstitialAd) { [HZInterstitialAd show]; }
+RCT_EXPORT_METHOD(showInterstitialAd
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject) {
+  if ([HZInterstitialAd isAvailable]) {
+    [HZInterstitialAd show];
+    return resolve([NSMutableDictionary dictionary]);
+  }
 
-RCT_EXPORT_METHOD(fetchVideoAd) { [HZVideoAd fetch]; }
+  NSString *errorMessage = @"An interstitial ad is not available";
+  return reject(
+      ERROR_DOMAIN, errorMessage,
+      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+}
 
-RCT_EXPORT_METHOD(showVideoAd) { [HZVideoAd show]; }
+RCT_EXPORT_METHOD(fetchVideoAd
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject) {
 
-RCT_EXPORT_METHOD(fetchIncentivizedAd) { [HZIncentivizedAd fetch]; }
+  [HZVideoAd fetchWithCompletion:^(BOOL result, NSError *error) {
+    if (result) {
+      return resolve([NSMutableDictionary dictionary]);
+    }
+    return reject(ERROR_DOMAIN, @"A video ad could not be fetched", error);
+  }];
+}
 
-RCT_EXPORT_METHOD(showIncentivizedAd) { [HZIncentivizedAd show]; }
+RCT_EXPORT_METHOD(showVideoAd
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject) {
+  if ([HZVideoAd isAvailable]) {
+    [HZVideoAd show];
+    return resolve([NSMutableDictionary dictionary]);
+  }
+
+  NSString *errorMessage = @"A video ad is not available";
+  return reject(
+      ERROR_DOMAIN, errorMessage,
+      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+}
+
+RCT_EXPORT_METHOD(fetchIncentivizedAd
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject) {
+  [HZIncentivizedAd fetchWithCompletion:^(BOOL result, NSError *error) {
+    if (result) {
+      return resolve([NSMutableDictionary dictionary]);
+    }
+    return reject(ERROR_DOMAIN, @"An incentivized ad could not be fetched",
+                  error);
+  }];
+}
+
+RCT_EXPORT_METHOD(showIncentivizedAd
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject) {
+  if ([HZIncentivizedAd isAvailable]) {
+    [HZIncentivizedAd show];
+    return resolve([NSMutableDictionary dictionary]);
+  }
+
+  NSString *errorMessage = @"An incentivized ad is not available";
+  return reject(
+      ERROR_DOMAIN, errorMessage,
+      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+}
 
 #pragma mark - Observers
 
