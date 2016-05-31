@@ -21,7 +21,7 @@ class Heyzap extends Component {
 
     constructor(props) {
         super(props);
-        NativeHeyzap.start(props.publisherId);
+        NativeHeyzap.start(props.publisherId).then((data) => console.log(data));
 
         // Set platform emitter
         this.emitter = Platform.OS === 'ios'
@@ -56,7 +56,7 @@ class Heyzap extends Component {
      * @return {void}
      */
     showInterstitialAd() {
-        NativeHeyzap.showInterstitialAd();
+        return NativeHeyzap.showInterstitialAd();
     }
 
     /**
@@ -65,7 +65,7 @@ class Heyzap extends Component {
      * @return {void}
      */
     fetchVideoAd() {
-        NativeHeyzap.fetchVideoAd();
+        return NativeHeyzap.fetchVideoAd();
     }
 
     /**
@@ -74,7 +74,7 @@ class Heyzap extends Component {
      * @return {void}
      */
     showVideoAd() {
-        NativeHeyzap.showVideoAd();
+        return NativeHeyzap.showVideoAd();
     }
 
     /**
@@ -83,7 +83,7 @@ class Heyzap extends Component {
      * @return {void}
      */
     fetchIncentivizedAd() {
-        NativeHeyzap.fetchIncentivizedAd();
+        return NativeHeyzap.fetchIncentivizedAd();
     }
 
     /**
@@ -92,7 +92,7 @@ class Heyzap extends Component {
      * @return {void}
      */
     showIncentivizedAd() {
-        NativeHeyzap.showIncentivizedAd();
+        return NativeHeyzap.showIncentivizedAd();
     }
 
     /* Event listeners */
@@ -222,7 +222,7 @@ class Heyzap extends Component {
 
 Heyzap.propTypes = {
     /* Required */
-    publisherId: PropTypes.string.isRequired,
+    publisherId: PropTypes.string,
 
     /* Options */
     childDirectedAds: PropTypes.bool,
