@@ -124,7 +124,7 @@ public class HeyzapModule extends ReactContextBaseJavaModule implements Lifecycl
   }
 
   @ReactMethod
-  public void initialize(final String publisherId, Promise promise) {
+  public void start(final String publisherId, Promise promise) {
     try {
       HeyzapAds.start(publisherId, getCurrentActivity());
       this.addListeners();

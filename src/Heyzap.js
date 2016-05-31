@@ -21,7 +21,7 @@ class Heyzap extends Component {
 
     constructor(props) {
         super(props);
-        NativeHeyzap.initialize(props.publisherId);
+        NativeHeyzap.start(props.publisherId);
 
         // Set platform emitter
         this.emitter = Platform.OS === 'ios'

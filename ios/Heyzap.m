@@ -6,14 +6,6 @@
 
 RCT_EXPORT_MODULE(Heyzap)
 
-- (id)init {
-  self = [super init];
-  if (self) {
-    [self addObservers];
-  }
-  return self;
-}
-
 - (dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();
 }
@@ -84,8 +76,11 @@ RCT_EXPORT_MODULE(Heyzap)
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-RCT_EXPORT_METHOD(initialize : (NSString *)publisherId) {
+RCT_EXPORT_METHOD(start
   [HeyzapAds startWithPublisherID:publisherId];
+  if ([HeyzapAds isStarted]) {
+    [self addObservers];
+  }
 }
 
 RCT_EXPORT_METHOD(showDebugPanel) {
