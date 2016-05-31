@@ -1,8 +1,7 @@
 'use strict';
 
-import {
+import React, {
     Component,
-    Platform,
     PropTypes,
 } from 'react';
 
@@ -10,6 +9,7 @@ import {
     DeviceEventEmitter,
     NativeModules,
     NativeAppEventEmitter,
+    Platform,
 } from 'react-native';
 
 let NativeHeyzap = NativeModules.Heyzap;
