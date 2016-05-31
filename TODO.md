@@ -7,17 +7,7 @@
 
 - Options (http://cocoadocs.org/docsets/Heyzap/9.5.7/Constants/HZAdOptions.html)
 
-- Add events
-    - Android
-    - iOS (Mostly done)
-    - Javascript (Mostly done)
-
 - Error handling
-    - Android
-    - iOS
-    - Javascript
-
-- Promisify
     - Android
     - iOS
     - Javascript
