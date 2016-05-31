@@ -39,7 +39,7 @@ public class HeyzapModule extends ReactContextBaseJavaModule implements Lifecycl
    *
    * @param eventName The name of the event to send
    * @param params    Any parameters to send with the event
-     */
+   */
   private void sendEvent(String eventName, @Nullable WritableMap params) {
     this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(eventName, params);
