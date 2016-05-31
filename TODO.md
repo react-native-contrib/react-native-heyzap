@@ -22,11 +22,16 @@
     - iOS
     - Javascript
 
-- Testing
+- General
     - Use Carthage for iOS dependency management
+    - Use Maven for Android dependency management
+    - Possibly make the hook ask which SDKs to download
+
+- Testing
+    - Add tests for ObjC
     - Add tests for Java
 
-
+- Get some sort of networks data object to return on `start`
 - Tags
 - Server-side Incentivized Callbacks
 - Remote Data
@@ -34,3 +39,4 @@
 - Install-Tracking Only
 - Test mode
 - Banner ads
+- Native ads
