@@ -77,10 +77,28 @@ RCT_EXPORT_MODULE(Heyzap)
 }
 
 RCT_EXPORT_METHOD(start
+                  : (NSString *)publisherId resolver
+                  : (RCTPromiseResolveBlock)resolve rejecter
+                  : (RCTPromiseRejectBlock)reject) {
   [HeyzapAds startWithPublisherID:publisherId];
   if ([HeyzapAds isStarted]) {
     [self addObservers];
+
+    NSArray *options = [NSArray
+        arrayWithObjects:
+            [NSNumber numberWithInteger:HZAdOptionsDisableAutoPrefetching],
+            [NSNumber numberWithInteger:HZAdOptionsInstallTrackingOnly],
+            [NSNumber numberWithInteger:HZAdOptionsDisableMedation],
+            [NSNumber
+                numberWithInteger:HZAdOptionsDisableAutomaticIAPRecording],
+            [NSNumber numberWithInteger:HZAdOptionsChildDirectedAds], nil];
+    return resolve(options);
   }
+
+  NSError *error = [NSError errorWithDomain:@"HEYZAP"
+                                       code:-57
+                                   userInfo:@"Heyzap failed to start"];
+  return reject(@"HEYZAP", error.userInfo, error);
 }
 
 RCT_EXPORT_METHOD(showDebugPanel) {
