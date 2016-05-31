@@ -222,7 +222,7 @@ class Heyzap extends Component {
 
 Heyzap.propTypes = {
     /* Required */
-    publisherId: PropTypes.string,
+    publisherId: PropTypes.string.isRequired,
 
     /* Options */
     childDirectedAds: PropTypes.bool,
