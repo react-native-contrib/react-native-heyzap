@@ -16,3 +16,4 @@ ios/*/project.xcworkspace
 ios/*/xcuserdata
 ios/**/*.framework
 ios/Carthage
+Cartfile.resolved
