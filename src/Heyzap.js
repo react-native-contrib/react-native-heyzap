@@ -23,7 +23,7 @@ class Heyzap extends Component {
         super(props);
         NativeHeyzap.start(props.publisherId).then((data) => console.log(data));
 
-        // Set platform emitter
+        // Set correct emitter for platform
         this.emitter = Platform.OS === 'ios'
             ? NativeAppEventEmitter
             : DeviceEventEmitter;
@@ -215,11 +215,22 @@ class Heyzap extends Component {
         this.emitter.removeAllListeners();
     }
 
+    /**
+     * Renders a component. Usually there would be some JSX here, but Heyzap
+     * doesn't need to render anything, so it returns `null`.
+     *
+     * @return {null}
+     */
     render() {
         return null;
     }
 };
 
+/**
+ * Property types for `Heyzap`.
+ *
+ * @type {Object}
+ */
 Heyzap.propTypes = {
     /* Required */
     publisherId: PropTypes.string,
@@ -244,6 +255,10 @@ Heyzap.propTypes = {
     onFailToCompleteIncentivizedAd: PropTypes.func,
 };
 
+/**
+ * Default property values for `Heyzap`.
+ * @type {Object}
+ */
 Heyzap.defaultProps = {
     childDirectedAds: false,
     disableAutoPrefetch: false,
