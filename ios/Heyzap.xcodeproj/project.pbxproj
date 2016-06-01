@@ -207,6 +207,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -228,6 +229,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
