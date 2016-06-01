@@ -111,6 +111,7 @@ RCT_EXPORT_METHOD(showDebugPanel) {
 RCT_EXPORT_METHOD(showInterstitialAd
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject) {
+
   if ([HZInterstitialAd isAvailable]) {
     [HZInterstitialAd show];
     return resolve([NSMutableDictionary dictionary]);
@@ -137,6 +138,7 @@ RCT_EXPORT_METHOD(fetchVideoAd
 RCT_EXPORT_METHOD(showVideoAd
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject) {
+
   if ([HZVideoAd isAvailable]) {
     [HZVideoAd show];
     return resolve([NSMutableDictionary dictionary]);
@@ -145,12 +147,18 @@ RCT_EXPORT_METHOD(showVideoAd
   NSString *errorMessage = @"A video ad is not available";
   return reject(
       ERROR_DOMAIN, errorMessage,
-      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+      [NSError
+          errorWithDomain:ERROR_DOMAIN
+                     code:-57
+                 userInfo:[NSDictionary
+                              dictionaryWithObjectsAndKeys:ERROR_DOMAIN,
+                                                           errorMessage, nil]]);
 }
 
 RCT_EXPORT_METHOD(fetchIncentivizedAd
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject) {
+
   [HZIncentivizedAd fetchWithCompletion:^(BOOL result, NSError *error) {
     if (result) {
       return resolve([NSMutableDictionary dictionary]);
@@ -163,6 +171,7 @@ RCT_EXPORT_METHOD(fetchIncentivizedAd
 RCT_EXPORT_METHOD(showIncentivizedAd
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject) {
+
   if ([HZIncentivizedAd isAvailable]) {
     [HZIncentivizedAd show];
     return resolve([NSMutableDictionary dictionary]);
@@ -177,120 +186,123 @@ RCT_EXPORT_METHOD(showIncentivizedAd
 #pragma mark - Observers
 
 - (void)didReceiveAdNotificationHandler:(NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidReceiveAd"
-                                               body:@{
-                                                 @"tag" : tagName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidReceiveAd"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"]
+                      }];
 }
 
 - (void)didFailToReceiveAdNotificationHandler:(NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidFailToReceiveAd"
-                                               body:@{
-                                                 @"tag" : tagName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidFailToReceiveAd"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"]
+                      }];
 }
 
 - (void)didShowAdNotificationHandler:(NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidShowAd"
-                                               body:@{
-                                                 @"tag" : tagName,
-                                                 @"network" : networkName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidShowAd"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" :
+                            notification.userInfo[@"HZNetworkNameUserInfoKey"]
+                      }];
 }
 
 - (void)didFailToShowAdNotificationHandler:(NSNotification *)notification
                                   andError:(NSError *)error {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName =
-      [notification.userInfo objectForKey:@"HZNetworkNameUserInfoKey"]
-          ? notification.userInfo[@"HZNetworkNameUserInfoKey"]
-          : nil;
-  NSString *errorName =
-      [notification.userInfo objectForKey:@"NSUnderlyingErrorKey"]
-          ? notification.userInfo[@"NSUnderlyingErrorKey"]
-          : nil;
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidFailToShowAd"
-                                               body:@{
-                                                 @"tag" : tagName,
-                                                 @"network" : networkName,
-                                                 @"error" : errorName
-                                               }];
+  NSString *networkName = nil;
+  NSString *errorReason = nil;
+
+  if ([notification.userInfo objectForKey:@"HZNetworkNameUserInfoKey"]) {
+    networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
+  }
+
+  if ([notification.userInfo objectForKey:@"NSUnderlyingErrorKey"]) {
+    errorReason = notification.userInfo[@"NSUnderlyingErrorKey"];
+  }
+
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidFailToShowAd"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" : networkName,
+                        @"errorReason" : errorReason,
+                        @"error" : error
+                      }];
 }
 
 - (void)didClickAdNotificationHandler:(NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidClickAd"
-                                               body:@{
-                                                 @"tag" : tagName,
-                                                 @"network" : networkName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidClickAd"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" :
+                            notification.userInfo[@"HZNetworkNameUserInfoKey"]
+                      }];
 }
 
 - (void)didHideAdNotificationHandler:(NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidHideAd"
-                                               body:@{
-                                                 @"tag" : tagName,
-                                                 @"network" : networkName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidHideAd"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" :
+                            notification.userInfo[@"HZNetworkNameUserInfoKey"]
+                      }];
 }
 
 - (void)willStartAdAudioNotificationHandler:(NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"WillStartAdAudio"
-                                               body:@{
-                                                 @"tag" : tagName,
-                                                 @"network" : networkName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"WillStartAdAudio"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" :
+                            notification.userInfo[@"HZNetworkNameUserInfoKey"]
+                      }];
 }
 
 - (void)didFinishAdAudioNotificationHandler:(NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidFinishAdAudio"
-                                               body:@{
-                                                 @"tag" : tagName,
-                                                 @"network" : networkName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidFinishAdAudio"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" :
+                            notification.userInfo[@"HZNetworkNameUserInfoKey"]
+                      }];
 }
 
 - (void)didCompleteIncentivizedAdNotificationHandler:
         (NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
 
-  [self.bridge.eventDispatcher sendAppEventWithName:@"DidCompleteIncentivizedAd"
-                                               body:@{
-                                                 @"tag" : tagName,
-                                                 @"network" : networkName
-                                               }];
+  [self.bridge.eventDispatcher
+      sendAppEventWithName:@"DidCompleteIncentivizedAd"
+                      body:@{
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" :
+                            notification.userInfo[@"HZNetworkNameUserInfoKey"]
+                      }];
 }
 
 - (void)didFailToCompleteIncentivizedAdNotificationHandler:
         (NSNotification *)notification {
-  NSString *tagName = notification.userInfo[@"HZAdTagUserInfoKey"];
-  NSString *networkName = notification.userInfo[@"HZNetworkNameUserInfoKey"];
 
   [self.bridge.eventDispatcher
       sendAppEventWithName:@"DidFailToCompleteIncentivizedAd"
                       body:@{
-                        @"tag" : tagName,
-                        @"network" : networkName
+                        @"tag" : notification.userInfo[@"HZAdTagUserInfoKey"],
+                        @"network" :
+                            notification.userInfo[@"HZNetworkNameUserInfoKey"]
                       }];
 }
 
