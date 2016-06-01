@@ -20,6 +20,7 @@
 - Testing
     - Add tests for ObjC
     - Add tests for Java
+    - Rewrite tests for JS
 
 - Get some sort of networks data object to return on `start`
 - Tags
