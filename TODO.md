@@ -22,6 +22,7 @@
     - Add tests for Java
     - Rewrite tests for JS
 
+- Add .npmignore
 - Get some sort of networks data object to return on `start`
 - Tags
 - Server-side Incentivized Callbacks
