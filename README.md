@@ -57,6 +57,8 @@ You can then call any of the following methods:
 
 ```js
 Heyzap.showDebugPanel();
+
+// These methods return promises
 Heyzap.showInterstitialAd();
 Heyzap.fetchVideoAd();
 Heyzap.showVideoAd();
