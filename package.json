@@ -10,11 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Heyzap/react-native-heyzap.git"
+    "url": "git+https://github.com/react-native-contrib/react-native-heyzap.git"
   },
-  "author": "Heyzap (https://github.com/Heyzap)",
+  "author": "React Native Contrib Community (https://github.com/react-native-contrib)",
   "contributors": [
-    "Hassan Khan <contact@hassankhan.me>"
+    "Hassan Khan <contact@hassankhan.me>",
+    "Caina Leao <cainaleao.uk@gmail.com>"
   ],
   "engines": {
     "node": ">= 4.1.0"
@@ -26,14 +27,14 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Heyzap/react-native-heyzap/issues"
+    "url": "https://github.com/react-native-contrib/react-native-heyzap/issues"
   },
   "keywords": [
     "react-native",
     "native-modules",
     "heyzap"
   ],
-  "homepage": "https://github.com/Heyzap/react-native-heyzap#readme",
+  "homepage": "https://github.com/react-native-contrib/react-native-heyzap#readme",
   "peerDependencies": {
     "react": "15.0.2",
     "react-native": ">=0.26"
@@ -46,6 +47,8 @@
     "babel-cli": "^6.9.0",
     "babel-core": "^6.9.1",
     "babel-eslint": "^6.0.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
     "babel-preset-react-native": "^1.9.0",
     "chai": "^3.5.0",
     "enzyme": "^2.3.0",
@@ -55,6 +58,7 @@
     "mocha": "^2.5.3",
     "react": "15.0.2",
     "react-addons-test-utils": "^15.0.2",
+    "react-dom": "^15.0.2",
     "react-native": "^0.26.2",
     "react-native-mock": "^0.2.2",
     "rewire": "^2.5.1",

@@ -70,13 +70,13 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-npm]: https://img.shields.io/npm/v/react-native-heyzap.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/heyzap/react-native-heyzap/master.svg?style=flat-square
-[ico-codeclimate]: https://img.shields.io/codeclimate/github/heyzap/react-native-heyzap.svg?style=flat-square
-[ico-code-coverage]: https://img.shields.io/codeclimate/coverage/github/heyzap/react-native-heyzap.svg?style=flat-square
-[ico-dependencies]: https://img.shields.io/david/heyzap/react-native-heyzap.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/react-native-contrib/react-native-heyzap/master.svg?style=flat-square
+[ico-codeclimate]: https://img.shields.io/codeclimate/github/react-native-contrib/react-native-heyzap.svg?style=flat-square
+[ico-code-coverage]: https://img.shields.io/codeclimate/coverage/github/react-native-contrib/react-native-heyzap.svg?style=flat-square
+[ico-dependencies]: https://img.shields.io/david/react-native-contrib/react-native-heyzap.svg?style=flat-square
 
 [link-npm]: https://www.npmjs.com/package/react-native-heyzap
-[link-travis]: https://travis-ci.org/heyzap/react-native-heyzap
-[link-codeclimate]: https://codeclimate.com/github/heyzap/react-native-heyzap
-[link-code-coverage]: https://codeclimate.com/github/heyzap/react-native-heyzap/coverage
-[link-dependencies]: https://david-dm.org/heyzap/react-native-heyzap
+[link-travis]: https://travis-ci.org/react-native-contrib/react-native-heyzap
+[link-codeclimate]: https://codeclimate.com/github/react-native-contrib/react-native-heyzap
+[link-code-coverage]: https://codeclimate.com/github/react-native-contrib/react-native-heyzap/coverage
+[link-dependencies]: https://david-dm.org/react-native-contrib/react-native-heyzap
