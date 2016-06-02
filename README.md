@@ -11,7 +11,7 @@
 
 ---
 
-Adds Heyzap integrations for React Native projects on Android and iOS.
+Adds Heyzap integration to React Native on Android and iOS.
 
 ## Requirements
 
