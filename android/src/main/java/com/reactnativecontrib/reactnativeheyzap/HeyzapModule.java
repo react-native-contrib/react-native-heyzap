@@ -1,4 +1,4 @@
-package com.heyzap.reactnative;
+package com.reactnativecontrib.reactnativeheyzap;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;

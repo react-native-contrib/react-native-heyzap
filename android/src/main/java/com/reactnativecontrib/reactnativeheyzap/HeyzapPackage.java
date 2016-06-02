@@ -1,4 +1,4 @@
-package com.heyzap.reactnative;
+package com.reactnativecontrib.reactnativeheyzap;
 
 import android.support.v4.app.FragmentActivity;
 import com.facebook.react.ReactPackage;
