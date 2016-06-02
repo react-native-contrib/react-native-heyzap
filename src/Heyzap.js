@@ -21,6 +21,7 @@ class Heyzap extends Component {
 
     constructor(props) {
         super(props);
+        console.log(NativeHeyzap);
         NativeHeyzap.start(props.publisherId).then((data) => console.log(data));
 
         // Set correct emitter for platform
