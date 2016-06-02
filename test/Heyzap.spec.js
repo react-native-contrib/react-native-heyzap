@@ -1,8 +1,10 @@
 'use strict';
 
 let chai   = require('chai');
-let mock = require('mock-require');
+let rewire = require('rewire');
 let sinon = require('sinon');
+require('react-native-mock/mock');
+import { shallow, mount, render } from 'enzyme';
 
 let expect = chai.expect;
 
@@ -16,10 +18,9 @@ let heyzapStub = sinon.stub({
     showIncentivizedAd: () => {},
 });
 
-mock('NativeModules', {
-    Heyzap: heyzapStub,
-});
-let heyzap = require('../src/Heyzap');
+let heyzap = rewire('../build/Heyzap');
+
+heyzap.__set__('NativeHeyzap', heyzapStub);
 
 describe('Heyzap', () => {
 

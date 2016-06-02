@@ -1,18 +1,21 @@
 {
   "name": "react-native-heyzap",
-  "version": "0.0.1",
-  "description": "A Heyzap integration for React Native projects",
+  "version": "0.1.0",
+  "description": "A Heyzap plugin for React Native",
   "main": "src/Heyzap.js",
   "scripts": {
-    "test": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/"
+    "test": "istanbul cover _mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js",
+    "test1": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/",
+    "build": "babel src --out-dir build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Heyzap/react-native-heyzap.git"
+    "url": "git+https://github.com/react-native-contrib/react-native-heyzap.git"
   },
-  "author": "Heyzap (https://github.com/Heyzap)",
+  "author": "React Native Contrib Community (https://github.com/react-native-contrib)",
   "contributors": [
-    "Hassan Khan <contact@hassankhan.me>"
+    "Hassan Khan <contact@hassankhan.me>",
+    "Caina Leao <cainaleao.uk@gmail.com>"
   ],
   "engines": {
     "node": ">= 4.1.0"
@@ -24,28 +27,41 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Heyzap/react-native-heyzap/issues"
+    "url": "https://github.com/react-native-contrib/react-native-heyzap/issues"
   },
   "keywords": [
     "react-native",
     "native-modules",
     "heyzap"
   ],
-  "homepage": "https://github.com/Heyzap/react-native-heyzap#readme",
+  "homepage": "https://github.com/react-native-contrib/react-native-heyzap#readme",
   "peerDependencies": {
-    "react-native": ">=0.20"
+    "react": "15.0.2",
+    "react-native": ">=0.26"
   },
   "dependencies": {
     "adm-zip": "^0.4.7"
   },
   "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.1",
     "babel-eslint": "^6.0.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-react-native": "^1.9.0",
     "chai": "^3.5.0",
+    "enzyme": "^2.3.0",
     "eslint": "^2.11.0",
     "eslint-plugin-react": "^5.1.1",
     "istanbul": "^0.4.3",
     "mocha": "^2.5.3",
-    "mock-require": "^1.3.0",
+    "react": "15.0.2",
+    "react-addons-test-utils": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-native": "^0.26.2",
+    "react-native-mock": "^0.2.2",
+    "rewire": "^2.5.1",
     "sinon": "^1.17.4"
   }
 }

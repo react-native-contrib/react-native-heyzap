@@ -2,12 +2,18 @@
 *.log
 node_modules
 coverage
+build
 
 android/*.iml
+android/local.properties
 android/.idea
+android/gradlew*
+android/gradle/wrapper
 android/build
 android/libs
 
 ios/*/project.xcworkspace
 ios/*/xcuserdata
-ios/*.framework
+ios/**/*.framework
+ios/Carthage
+Cartfile.resolved
