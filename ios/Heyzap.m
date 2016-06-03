@@ -116,9 +116,12 @@ RCT_EXPORT_METHOD(start
   }
 
   NSString *errorMessage = @"Heyzap failed to start";
-  return reject(
-      ERROR_DOMAIN, errorMessage,
-      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+  return reject(ERROR_DOMAIN, errorMessage,
+                [NSError errorWithDomain:ERROR_DOMAIN
+                                    code:-57
+                                userInfo:@{
+                                  @"error" : errorMessage
+                                }]);
 }
 
 RCT_EXPORT_METHOD(showDebugPanel) {
@@ -135,9 +138,12 @@ RCT_EXPORT_METHOD(showInterstitialAd
   }
 
   NSString *errorMessage = @"An interstitial ad is not available";
-  return reject(
-      ERROR_DOMAIN, errorMessage,
-      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+  return reject(ERROR_DOMAIN, errorMessage,
+                [NSError errorWithDomain:ERROR_DOMAIN
+                                    code:-57
+                                userInfo:@{
+                                  @"error" : errorMessage
+                                }]);
 }
 
 RCT_EXPORT_METHOD(fetchVideoAd
@@ -195,9 +201,12 @@ RCT_EXPORT_METHOD(showIncentivizedAd
   }
 
   NSString *errorMessage = @"An incentivized ad is not available";
-  return reject(
-      ERROR_DOMAIN, errorMessage,
-      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+  return reject(ERROR_DOMAIN, errorMessage,
+                [NSError errorWithDomain:ERROR_DOMAIN
+                                    code:-57
+                                userInfo:@{
+                                  @"error" : errorMessage
+                                }]);
 }
 
 #pragma mark - Observers
