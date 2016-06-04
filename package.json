@@ -4,7 +4,7 @@
   "description": "A Heyzap plugin for React Native",
   "main": "src/Heyzap.js",
   "scripts": {
-    "test": "istanbul cover _mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js",
+    "test": "mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js",
     "test1": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/",
     "build": "babel src --out-dir build"
   },
@@ -19,6 +19,11 @@
   ],
   "engines": {
     "node": ">= 4.1.0"
+  },
+  "babel": {
+    "presets": [
+      "react-native"
+    ]
   },
   "rnpm": {
     "commands": {
@@ -62,6 +67,7 @@
     "react-native": "^0.26.2",
     "react-native-mock": "^0.2.2",
     "rewire": "^2.5.1",
-    "sinon": "^1.17.4"
+    "sinon": "^1.17.4",
+    "sinon-as-promised": "^4.0.0"
   }
 }
