@@ -20,11 +20,6 @@
   "engines": {
     "node": ">= 4.1.0"
   },
-  "babel": {
-    "presets": [
-      "react-native"
-    ]
-  },
   "rnpm": {
     "commands": {
       "prelink": "node_modules/react-native-heyzap/hooks/downloadHeyzapJar.js"
