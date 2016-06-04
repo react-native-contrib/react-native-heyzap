@@ -17,3 +17,4 @@ ios/*/xcuserdata
 ios/**/*.framework
 ios/Carthage
 Cartfile.resolved
+android/.gradle
