@@ -16,233 +16,336 @@ import com.heyzap.sdk.ads.IncentivizedAd;
 import com.heyzap.sdk.ads.InterstitialAd;
 import com.heyzap.sdk.ads.VideoAd;
 
-public class HeyzapModule extends ReactContextBaseJavaModule implements LifecycleEventListener, ActivityEventListener {
+import java.util.HashMap;
+import java.util.Map;
 
-  ReactApplicationContext reactContext;
+public class HeyzapModule extends ReactContextBaseJavaModule implements LifecycleEventListener,
+        ActivityEventListener {
 
-  /**
-   * Creates a new instance of this module.
-   *
-   * @param reactContext The React catalyst context
-   */
-  public HeyzapModule(ReactApplicationContext reactContext) {
-    super(reactContext);
-    this.reactContext = reactContext;
+    ReactApplicationContext reactContext;
+    HeyzapAds.OnStatusListener statusListener;
+    HeyzapAds.OnIncentiveResultListener incentiveResultListener;
 
-    // Get lifecycle notifications to flush Heyzap on pause or destroy
-    reactContext.addLifecycleEventListener(this);
-    reactContext.addActivityEventListener(this);
-  }
 
-  /**
-   * A convenience method for sending events to Javascript.
-   *
-   * @param eventName The name of the event to send
-   * @param params    Any parameters to send with the event
-   */
-  private void sendEvent(String eventName, @Nullable WritableMap params) {
-    this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(eventName, params);
-  }
+    /**
+     * Creates a new instance of this module.
+     *
+     * @param reactContext The React catalyst context
+     */
+    public HeyzapModule(ReactApplicationContext reactContext) {
+        super(reactContext);
+        this.reactContext = reactContext;
 
-  /**
-   * Adds Heyzap listeners
-   */
-  private void addListeners() {
-    HeyzapAds.OnStatusListener statusListener = new HeyzapAds.OnStatusListener() {
+        HeyzapAds.framework = "react-native";
 
-      @Override
-      public void onShow(String tag) {
-        HeyzapModule.this.sendEvent("DidShowAd", Arguments.createMap());
-      }
-
-      @Override
-      public void onClick(String tag) {
-        HeyzapModule.this.sendEvent("DidClickAd", Arguments.createMap());
-      }
-
-      @Override
-      public void onHide(String tag) {
-        HeyzapModule.this.sendEvent("DidHideAd", Arguments.createMap());
-      }
-
-      @Override
-      public void onFailedToShow(String tag) {
-        HeyzapModule.this.sendEvent("DidFailToShowAd", Arguments.createMap());
-      }
-
-      @Override
-      public void onAvailable(String tag) {
-        HeyzapModule.this.sendEvent("DidReceiveAd", Arguments.createMap());
-      }
-
-      @Override
-      public void onFailedToFetch(String tag) {
-        HeyzapModule.this.sendEvent("DidFailToReceiveAd", Arguments.createMap());
-      }
-
-      @Override
-      public void onAudioStarted() {
-        HeyzapModule.this.sendEvent("WillStartAdAudio", Arguments.createMap());
-      }
-
-      @Override
-      public void onAudioFinished() {
-        HeyzapModule.this.sendEvent("DidFinishAdAudio", Arguments.createMap());
-      }
-    };
-
-    HeyzapAds.OnIncentiveResultListener incentiveResultListener = new HeyzapAds.OnIncentiveResultListener() {
-
-      @Override
-      public void onComplete(String tag) {
-
-      }
-
-      @Override
-      public void onIncomplete(String tag) {
-
-      }
-    };
-
-    HeyzapAds.setNetworkCallbackListener(new HeyzapAds.NetworkCallbackListener() {
-      @Override
-      public void onNetworkCallback(String network, String event) {
-        HeyzapModule.this.sendEvent("NETWORK", Arguments.createMap());
-      }
-    });
-
-    InterstitialAd.setOnStatusListener(statusListener);
-    VideoAd.setOnStatusListener(statusListener);
-    IncentivizedAd.setOnStatusListener(statusListener);
-    IncentivizedAd.setOnIncentiveResultListener(incentiveResultListener);
-  }
-
-  @Override
-  public String getName() {
-    return "Heyzap";
-  }
-
-  @ReactMethod
-  public void start(final String publisherId, Promise promise) {
-    try {
-      HeyzapAds.start(publisherId, getCurrentActivity());
-      this.addListeners();
-      promise.resolve(true);
-
-    } catch (Exception e) {
-      promise.reject(e);
-    }
-  }
-
-  @ReactMethod
-  public void showDebugPanel() {
-    HeyzapAds.startTestActivity(getCurrentActivity());
-  }
-
-  @ReactMethod
-  public void showInterstitialAd(Promise promise) {
-    try {
-      InterstitialAd.display(getCurrentActivity());
-      promise.resolve(true);
-
-    } catch (Exception e) {
-      promise.reject(e);
-    }
-  }
-
-  @ReactMethod
-  public void fetchVideoAd(Promise promise) {
-    try {
-      VideoAd.fetch();
-
-    } catch (Exception e) {
-      promise.reject(e);
-    }
-  }
-
-  /**
-   * Shows a VideoAd if it has already been fetched.
-   */
-  @ReactMethod
-  public void showVideoAd(Promise promise) {
-    try {
-      if (VideoAd.isAvailable()) {
-        VideoAd.display(getCurrentActivity());
-        promise.resolve(true);
-      }
-
-      throw new Exception("A video ad is currently unavailable");
-
-    } catch (Exception e) {
-      promise.reject(e);
-    }
-  }
-
-  @ReactMethod
-  public void fetchIncentivizedAd(Promise promise) {
-    try {
-      IncentivizedAd.fetch();
-      promise.resolve(true);
-
-    } catch (Exception e) {
-      promise.reject(e);
+        // Get lifecycle notifications to flush Heyzap on pause or destroy
+        reactContext.addLifecycleEventListener(this);
+        reactContext.addActivityEventListener(this);
     }
 
-  }
-
-  /**
-   * Shows an IncentivizedAd if it has already been fetched.
-   */
-  @ReactMethod
-  public void showIncentivizedAd(Promise promise) {
-    try {
-      if (IncentivizedAd.isAvailable()) {
-        IncentivizedAd.display(getCurrentActivity());
-        promise.resolve(true);
-      }
-
-      throw new Exception("An incentivized ad is currently unavailable");
-
-    } catch (Exception e) {
-      promise.reject(e);
+    /**
+     * A convenience method for sending events to Javascript.
+     *
+     * @param eventName The name of the event to send
+     * @param params    Any parameters to send with the event
+     */
+    private void sendEvent(String eventName, @Nullable WritableMap params) {
+        this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
     }
-  }
 
-  /**
-   * Called when host (activity/service) receives an {@link Activity#onActivityResult} call.
-   *
-   * @param requestCode
-   * @param resultCode
-   * @param data
-   */
-  @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    private WritableMap createArgumentMap(String tag) {
+        WritableMap map = Arguments.createMap();
+        map.putString("tag", tag);
+        return map;
+    }
 
-  }
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
 
-  /**
-   * Called when host (activity/service) receives resume event (e.g. {@link Activity#onResume}
-   */
-  @Override
-  public void onHostResume() {
+        constants.put("NONE", HeyzapAds.NONE);
+        constants.put("DISABLE_AUTOMATIC_FETCH", HeyzapAds.DISABLE_AUTOMATIC_FETCH);
+        constants.put("INSTALL_TRACKING_ONLY", HeyzapAds.INSTALL_TRACKING_ONLY);
+        constants.put("DISABLE_MEDIATION", HeyzapAds.DISABLE_MEDIATION);
+        constants.put("NATIVE_ADS_ONLY", HeyzapAds.NATIVE_ADS_ONLY);
+        constants.put("CHILD_DIRECTED_ADVERTISING", HeyzapAds.CHILD_DIRECTED_ADVERTISING);
 
-  }
+        constants.put("HEYZAP", HeyzapAds.Network.HEYZAP);
+        constants.put("FACEBOOK", HeyzapAds.Network.FACEBOOK);
+        constants.put("UNITYADS", HeyzapAds.Network.UNITYADS);
+        constants.put("APPLOVIN", HeyzapAds.Network.APPLOVIN);
+        constants.put("VUNGLE", HeyzapAds.Network.VUNGLE);
+        constants.put("CHARTBOOST", HeyzapAds.Network.CHARTBOOST);
+        constants.put("ADCOLONY", HeyzapAds.Network.ADCOLONY);
+        constants.put("ADMOB", HeyzapAds.Network.ADMOB);
+        constants.put("IAD", HeyzapAds.Network.IAD);
+        constants.put("HYPRMX", HeyzapAds.Network.HYPRMX);
+        constants.put("INMOBI", HeyzapAds.Network.INMOBI);
 
-  /**
-   * Called when host (activity/service) receives pause event (e.g. {@link Activity#onPause}
-   */
-  @Override
-  public void onHostPause() {
+        constants.put("INITIALIZED", HeyzapAds.NetworkCallback.INITIALIZED);
+        constants.put("SHOW", HeyzapAds.NetworkCallback.SHOW);
+        constants.put("AVAILABLE", HeyzapAds.NetworkCallback.AVAILABLE);
+        constants.put("HIDE", HeyzapAds.NetworkCallback.HIDE);
+        constants.put("FETCH_FAILED", HeyzapAds.NetworkCallback.FETCH_FAILED);
+        constants.put("CLICK", HeyzapAds.NetworkCallback.CLICK);
+        constants.put("DISMISS", HeyzapAds.NetworkCallback.DISMISS);
+        constants.put("INCENTIVIZED_RESULT_COMPLETE",
+                HeyzapAds.NetworkCallback.INCENTIVIZED_RESULT_COMPLETE);
+        constants.put("INCENTIVIZED_RESULT_INCOMPLETE",
+                HeyzapAds.NetworkCallback.INCENTIVIZED_RESULT_INCOMPLETE);
+        constants.put("AUDIO_STARTING", HeyzapAds.NetworkCallback.AUDIO_STARTING);
+        constants.put("AUDIO_FINISHED", HeyzapAds.NetworkCallback.AUDIO_FINISHED);
+        constants.put("LEAVE_APPLICATION", HeyzapAds.NetworkCallback.LEAVE_APPLICATION);
+        constants.put("DISPLAY_FAILED", HeyzapAds.NetworkCallback.DISPLAY_FAILED);
 
-  }
+        return constants;
+    }
 
-  /**
-   * Called when host (activity/service) receives destroy event (e.g. {@link Activity#onDestroy}
-   */
-  @Override
-  public void onHostDestroy() {
+    /**
+     * Adds Heyzap listeners.
+     */
+    private void addListeners() {
+        statusListener = new HeyzapAds.OnStatusListener() {
 
-  }
+            @Override
+            public void onShow(String tag) {
+                HeyzapModule.this.sendEvent("DidShowAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+
+            @Override
+            public void onClick(String tag) {
+                HeyzapModule.this.sendEvent("DidClickAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+
+            @Override
+            public void onHide(String tag) {
+                HeyzapModule.this.sendEvent("DidHideAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+
+            @Override
+            public void onFailedToShow(String tag) {
+                HeyzapModule.this.sendEvent("DidFailToShowAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+
+            @Override
+            public void onAvailable(String tag) {
+                HeyzapModule.this.sendEvent("DidReceiveAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+
+            @Override
+            public void onFailedToFetch(String tag) {
+                HeyzapModule.this.sendEvent("DidFailToReceiveAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+
+            @Override
+            public void onAudioStarted() {
+                HeyzapModule.this.sendEvent("WillStartAdAudio", Arguments.createMap());
+            }
+
+            @Override
+            public void onAudioFinished() {
+                HeyzapModule.this.sendEvent("DidFinishAdAudio", Arguments.createMap());
+            }
+        };
+
+        incentiveResultListener = new HeyzapAds.OnIncentiveResultListener() {
+
+            @Override
+            public void onComplete(String tag) {
+                HeyzapModule.this.sendEvent("DidCompleteIncentivizedAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+
+            @Override
+            public void onIncomplete(String tag) {
+                HeyzapModule.this.sendEvent("DidFailToCompleteIncentivizedAd", HeyzapModule.this.createArgumentMap(tag));
+            }
+        };
+
+        HeyzapAds.setNetworkCallbackListener(new HeyzapAds.NetworkCallbackListener() {
+            @Override
+            public void onNetworkCallback(String network, String event) {
+                HeyzapModule.this.sendEvent("NETWORK", Arguments.createMap());
+            }
+        });
+
+        InterstitialAd.setOnStatusListener(statusListener);
+        VideoAd.setOnStatusListener(statusListener);
+        IncentivizedAd.setOnStatusListener(statusListener);
+        IncentivizedAd.setOnIncentiveResultListener(incentiveResultListener);
+    }
+
+
+    @Override
+    public String getName() {
+        return "Heyzap";
+    }
+
+
+    /**
+     * Starts the Heyzap SDK.
+     */
+    @ReactMethod
+    public void start(final String publisherId, Promise promise) {
+        try {
+            HeyzapAds.start(publisherId, getCurrentActivity());
+            this.addListeners();
+            promise.resolve(getStatus());
+
+        } catch (Exception exception) {
+            promise.reject(exception);
+        }
+    }
+
+    private WritableMap getStatus() {
+        WritableMap status = Arguments.createMap();
+
+        status.putBoolean(HeyzapAds.Network.ADCOLONY,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.ADCOLONY));
+        status.putBoolean(HeyzapAds.Network.ADMOB,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.ADMOB));
+        status.putBoolean(HeyzapAds.Network.APPLOVIN,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.APPLOVIN));
+        status.putBoolean(HeyzapAds.Network.CHARTBOOST,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.CHARTBOOST));
+        status.putBoolean(HeyzapAds.Network.FACEBOOK,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.FACEBOOK));
+        status.putBoolean(HeyzapAds.Network.HEYZAP,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.HEYZAP));
+        status.putBoolean(HeyzapAds.Network.HYPRMX,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.HYPRMX));
+        status.putBoolean(HeyzapAds.Network.IAD,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.IAD));
+        status.putBoolean(HeyzapAds.Network.INMOBI,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.INMOBI));
+        status.putBoolean(HeyzapAds.Network.UNITYADS,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.UNITYADS));
+        status.putBoolean(HeyzapAds.Network.VUNGLE,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.VUNGLE));
+
+        return status;
+    }
+
+    @ReactMethod
+    public void showDebugPanel() {
+        HeyzapAds.startTestActivity(getCurrentActivity());
+    }
+
+    /**
+     * Shows an interstitial ad.
+     */
+    @ReactMethod
+    public void showInterstitialAd(Promise promise) {
+        try {
+            InterstitialAd.display(getCurrentActivity());
+            promise.resolve(true);
+
+        } catch (Exception exception) {
+            promise.reject(exception);
+        }
+    }
+
+    /**
+     * Fetches a video ad and returns a promise.
+     */
+    @ReactMethod
+    public void fetchVideoAd(Promise promise) {
+        try {
+            VideoAd.fetch();
+            promise.resolve(true);
+
+        } catch (Exception exception) {
+            promise.reject(exception);
+        }
+    }
+
+    /**
+     * Shows a VideoAd if it has already been fetched.
+     */
+    @ReactMethod
+    public void showVideoAd(Promise promise) {
+        try {
+            if (VideoAd.isAvailable()) {
+                VideoAd.display(getCurrentActivity());
+                promise.resolve(true);
+            }
+
+            throw new Exception("A video ad is currently unavailable");
+
+        } catch (Exception exception) {
+            promise.reject(exception);
+        }
+    }
+
+    /**
+     * Fetches an incentivized ad and returns a promise.
+     */
+    @ReactMethod
+    public void fetchIncentivizedAd(Promise promise) {
+        try {
+            IncentivizedAd.fetch();
+            promise.resolve(true);
+
+        } catch (Exception exception) {
+            promise.reject(exception);
+        }
+
+    }
+
+    /**
+     * Shows an IncentivizedAd if it has already been fetched.
+     */
+    @ReactMethod
+    public void showIncentivizedAd(Promise promise) {
+        try {
+            if (IncentivizedAd.isAvailable()) {
+                IncentivizedAd.display(getCurrentActivity());
+                promise.resolve(true);
+            }
+
+            throw new Exception("An incentivized ad is currently unavailable");
+
+        } catch (Exception exception) {
+            promise.reject(exception);
+        }
+    }
+
+    /**
+     * Called when host (activity/service) receives an {@link Activity#onActivityResult} call.
+     *
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult().
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller.
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    }
+
+    /**
+     * Called when host (activity/service) receives resume event (e.g. {@link Activity#onResume}
+     */
+    @Override
+    public void onHostResume() {
+
+    }
+
+    /**
+     * Called when host (activity/service) receives pause event (e.g. {@link Activity#onPause}
+     */
+    @Override
+    public void onHostPause() {
+
+    }
+
+    /**
+     * Called when host (activity/service) receives destroy event (e.g. {@link Activity#onDestroy}
+     */
+    @Override
+    public void onHostDestroy() {
+
+    }
 
 }

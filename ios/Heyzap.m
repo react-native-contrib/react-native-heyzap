@@ -1,5 +1,18 @@
 #import "Heyzap.h"
 
+@implementation RCTConvert (HeyzapAdOptions)
+RCT_ENUM_CONVERTER(HZAdOptions, (@{
+  @"AdOptionsNone" : @(HZAdOptionsNone),
+  @"AdOptionsDisableAutoPrefetching" : @(HZAdOptionsDisableAutoPrefetching),
+  @"AdOptionsInstallTrackingOnly" : @(HZAdOptionsInstallTrackingOnly),
+  @"AdOptionsDisableMediation" : @(HZAdOptionsDisableMedation),
+  @"AdOptionsDisableAutomaticIAPRecording" :
+      @(HZAdOptionsDisableAutomaticIAPRecording),
+  @"AdOptionsChildDirectedAds" : @(HZAdOptionsChildDirectedAds),
+}),
+                   HZAdOptionsNone, integerValue)
+@end
+
 @implementation Heyzap
 
 @synthesize bridge = _bridge;
@@ -7,6 +20,14 @@
 RCT_EXPORT_MODULE(Heyzap)
 
 NSString *const ERROR_DOMAIN = @"HEYZAP";
+
+- (id)init {
+  self = [super init];
+  if (self) {
+    [HeyzapAds setFramework:@"react-native"];
+  }
+  return self;
+}
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -16,67 +37,71 @@ NSString *const ERROR_DOMAIN = @"HEYZAP";
   return dispatch_get_main_queue();
 }
 
-- (void)addObservers {
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didReceiveAdNotificationHandler:)
-             name:HZMediationDidReceiveAdNotification
-           object:nil];
+#pragma mark - Exported constants
 
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didFailToReceiveAdNotificationHandler:)
-             name:HZMediationDidFailToReceiveAdNotification
-           object:nil];
+- (NSDictionary *)constantsToExport {
+  return @{
+    @"AdOptionsNone" : @(HZAdOptionsNone),
+    @"AdOptionsDisableAutoPrefetching" : @(HZAdOptionsDisableAutoPrefetching),
+    @"AdOptionsInstallTrackingOnly" : @(HZAdOptionsInstallTrackingOnly),
+    @"AdOptionsDisableMediation" : @(HZAdOptionsDisableMedation),
+    @"AdOptionsDisableAutomaticIAPRecording" :
+        @(HZAdOptionsDisableAutomaticIAPRecording),
+    @"AdOptionsChildDirectedAds" : @(HZAdOptionsChildDirectedAds),
+    @"NetworkHeyzap" : HZNetworkHeyzap,
+    @"NetworkCrossPromo" : HZNetworkCrossPromo,
+    @"NetworkFacebook" : HZNetworkFacebook,
+    @"NetworkUnityAds" : HZNetworkUnityAds,
+    @"NetworkAppLovin" : HZNetworkAppLovin,
+    @"NetworkVungle" : HZNetworkVungle,
+    @"NetworkChartboost" : HZNetworkChartboost,
+    @"NetworkAdColony" : HZNetworkAdColony,
+    @"NetworkAdMob" : HZNetworkAdMob,
+    @"NetworkIAd" : HZNetworkIAd,
+    @"NetworkHyprMX" : HZNetworkHyprMX,
+    @"NetworkHeyzapExchange" : HZNetworkHeyzapExchange,
+    @"NetworkLeadbolt" : HZNetworkLeadbolt,
+    @"NetworkInMobi" : HZNetworkInMobi,
+    @"NetworkCallbackInitialized" : HZNetworkCallbackInitialized,
+    @"NetworkCallbackShow" : HZNetworkCallbackShow,
+    @"NetworkCallbackAvailable" : HZNetworkCallbackAvailable,
+    @"NetworkCallbackHide" : HZNetworkCallbackHide,
+    @"NetworkCallbackFetchFailed" : HZNetworkCallbackFetchFailed,
+    @"NetworkCallbackClick" : HZNetworkCallbackClick,
+    @"NetworkCallbackDismiss" : HZNetworkCallbackDismiss,
+    @"NetworkCallbackIncentivizedResultIncomplete" :
+        HZNetworkCallbackIncentivizedResultIncomplete,
+    @"NetworkCallbackIncentivizedResultComplete" :
+        HZNetworkCallbackIncentivizedResultComplete,
+    @"NetworkCallbackAudioStarting" : HZNetworkCallbackAudioStarting,
+    @"NetworkCallbackAudioFinished" : HZNetworkCallbackAudioFinished,
+    @"NetworkCallbackLeaveApplication" : HZNetworkCallbackLeaveApplication,
+    @"RemoteDataRefreshedNotification" : HZRemoteDataRefreshedNotification,
+    @"MediationNetworkCallbackNotification" :
+        HZMediationNetworkCallbackNotification,
+    @"MediationDidShowAdNotification" : HZMediationDidShowAdNotification,
+    @"MediationDidFailToShowAdNotification" :
+        HZMediationDidFailToShowAdNotification,
+    @"MediationDidReceiveAdNotification" : HZMediationDidReceiveAdNotification,
+    @"MediationDidFailToReceiveAdNotification" :
+        HZMediationDidFailToReceiveAdNotification,
+    @"MediationDidClickAdNotification" : HZMediationDidClickAdNotification,
+    @"MediationDidHideAdNotification" : HZMediationDidHideAdNotification,
+    @"MediationWillStartAdAudioNotification" :
+        HZMediationWillStartAdAudioNotification,
+    @"MediationDidFinishAdAudioNotification" :
+        HZMediationDidFinishAdAudioNotification,
+    @"MediationDidCompleteIncentivizedAdNotification" :
+        HZMediationDidCompleteIncentivizedAdNotification,
+    @"MediationDidFailToCompleteIncentivizedAdNotification" :
+        HZMediationDidFailToCompleteIncentivizedAdNotification,
+    @"NetworkCallbackNameUserInfoKey" : HZNetworkCallbackNameUserInfoKey,
+    @"AdTagUserInfoKey" : HZAdTagUserInfoKey,
+    @"NetworkNameUserInfoKey" : HZNetworkNameUserInfoKey,
+  };
+};
 
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didShowAdNotificationHandler:)
-             name:HZMediationDidShowAdNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didFailToShowAdNotificationHandler:andError:)
-             name:HZMediationDidFailToShowAdNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didClickAdNotificationHandler:)
-             name:HZMediationDidClickAdNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didHideAdNotificationHandler:)
-             name:HZMediationDidHideAdNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(willStartAdAudioNotificationHandler:)
-             name:HZMediationWillStartAdAudioNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didFinishAdAudioNotificationHandler:)
-             name:HZMediationDidFinishAdAudioNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didCompleteIncentivizedAdNotificationHandler:)
-             name:HZMediationDidCompleteIncentivizedAdNotification
-           object:nil];
-
-  [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(didFailToCompleteIncentivizedAdNotificationHandler:)
-             name:HZMediationDidFailToCompleteIncentivizedAdNotification
-           object:nil];
-}
+#pragma mark - Exported methods
 
 RCT_EXPORT_METHOD(start
                   : (NSString *)publisherId resolver
@@ -87,21 +112,16 @@ RCT_EXPORT_METHOD(start
   if ([HeyzapAds isStarted]) {
     [self addObservers];
 
-    NSArray *options = [NSArray
-        arrayWithObjects:
-            [NSNumber numberWithInteger:HZAdOptionsDisableAutoPrefetching],
-            [NSNumber numberWithInteger:HZAdOptionsInstallTrackingOnly],
-            [NSNumber numberWithInteger:HZAdOptionsDisableMedation],
-            [NSNumber
-                numberWithInteger:HZAdOptionsDisableAutomaticIAPRecording],
-            [NSNumber numberWithInteger:HZAdOptionsChildDirectedAds], nil];
-    return resolve(options);
+    return resolve([self getStatus]);
   }
 
   NSString *errorMessage = @"Heyzap failed to start";
-  return reject(
-      ERROR_DOMAIN, errorMessage,
-      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+  return reject(ERROR_DOMAIN, errorMessage,
+                [NSError errorWithDomain:ERROR_DOMAIN
+                                    code:-57
+                                userInfo:@{
+                                  @"error" : errorMessage
+                                }]);
 }
 
 RCT_EXPORT_METHOD(showDebugPanel) {
@@ -118,9 +138,12 @@ RCT_EXPORT_METHOD(showInterstitialAd
   }
 
   NSString *errorMessage = @"An interstitial ad is not available";
-  return reject(
-      ERROR_DOMAIN, errorMessage,
-      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+  return reject(ERROR_DOMAIN, errorMessage,
+                [NSError errorWithDomain:ERROR_DOMAIN
+                                    code:-57
+                                userInfo:@{
+                                  @"error" : errorMessage
+                                }]);
 }
 
 RCT_EXPORT_METHOD(fetchVideoAd
@@ -178,9 +201,37 @@ RCT_EXPORT_METHOD(showIncentivizedAd
   }
 
   NSString *errorMessage = @"An incentivized ad is not available";
-  return reject(
-      ERROR_DOMAIN, errorMessage,
-      [NSError errorWithDomain:ERROR_DOMAIN code:-57 userInfo:errorMessage]);
+  return reject(ERROR_DOMAIN, errorMessage,
+                [NSError errorWithDomain:ERROR_DOMAIN
+                                    code:-57
+                                userInfo:@{
+                                  @"error" : errorMessage
+                                }]);
+}
+
+#pragma mark - Private methods
+
+- (NSDictionary *)getStatus {
+
+  return @{
+    HZNetworkHeyzap : @([HeyzapAds isNetworkInitialized:HZNetworkHeyzap]),
+    HZNetworkCrossPromo :
+        @([HeyzapAds isNetworkInitialized:HZNetworkCrossPromo]),
+    HZNetworkFacebook : @([HeyzapAds isNetworkInitialized:HZNetworkFacebook]),
+    HZNetworkUnityAds : @([HeyzapAds isNetworkInitialized:HZNetworkUnityAds]),
+    HZNetworkAppLovin : @([HeyzapAds isNetworkInitialized:HZNetworkAppLovin]),
+    HZNetworkVungle : @([HeyzapAds isNetworkInitialized:HZNetworkVungle]),
+    HZNetworkChartboost :
+        @([HeyzapAds isNetworkInitialized:HZNetworkChartboost]),
+    HZNetworkAdColony : @([HeyzapAds isNetworkInitialized:HZNetworkAdColony]),
+    HZNetworkAdMob : @([HeyzapAds isNetworkInitialized:HZNetworkAdMob]),
+    HZNetworkIAd : @([HeyzapAds isNetworkInitialized:HZNetworkIAd]),
+    HZNetworkHyprMX : @([HeyzapAds isNetworkInitialized:HZNetworkHyprMX]),
+    HZNetworkHeyzapExchange :
+        @([HeyzapAds isNetworkInitialized:HZNetworkHeyzapExchange]),
+    HZNetworkLeadbolt : @([HeyzapAds isNetworkInitialized:HZNetworkLeadbolt]),
+    HZNetworkInMobi : @([HeyzapAds isNetworkInitialized:HZNetworkInMobi]),
+  };
 }
 
 #pragma mark - Observers
@@ -304,6 +355,70 @@ RCT_EXPORT_METHOD(showIncentivizedAd
                         @"network" :
                             notification.userInfo[@"HZNetworkNameUserInfoKey"]
                       }];
+}
+
+#pragma mark - Attach observers
+
+- (void)addObservers {
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didReceiveAdNotificationHandler:)
+             name:HZMediationDidReceiveAdNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didFailToReceiveAdNotificationHandler:)
+             name:HZMediationDidFailToReceiveAdNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didShowAdNotificationHandler:)
+             name:HZMediationDidShowAdNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didFailToShowAdNotificationHandler:andError:)
+             name:HZMediationDidFailToShowAdNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didClickAdNotificationHandler:)
+             name:HZMediationDidClickAdNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didHideAdNotificationHandler:)
+             name:HZMediationDidHideAdNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(willStartAdAudioNotificationHandler:)
+             name:HZMediationWillStartAdAudioNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didFinishAdAudioNotificationHandler:)
+             name:HZMediationDidFinishAdAudioNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didCompleteIncentivizedAdNotificationHandler:)
+             name:HZMediationDidCompleteIncentivizedAdNotification
+           object:nil];
+
+  [[NSNotificationCenter defaultCenter]
+      addObserver:self
+         selector:@selector(didFailToCompleteIncentivizedAdNotificationHandler:)
+             name:HZMediationDidFailToCompleteIncentivizedAdNotification
+           object:nil];
 }
 
 @end

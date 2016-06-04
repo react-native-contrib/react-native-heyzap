@@ -21,7 +21,10 @@ class Heyzap extends Component {
 
     constructor(props) {
         super(props);
-        NativeHeyzap.start(props.publisherId).then((data) => console.log(data));
+        NativeHeyzap.start(props.publisherId)
+            .then((data) => {
+                this.networkStatus = data;
+            });
 
         // Set correct emitter for platform
         this.emitter = Platform.OS === 'ios'
@@ -40,6 +43,10 @@ class Heyzap extends Component {
     }
 
     /* Actions */
+
+    getNetworkStatus() {
+        return this.networkStatus;
+    }
 
     /**
      * Shows the Heyzap Mediation Debug screen.

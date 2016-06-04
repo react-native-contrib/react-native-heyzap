@@ -1,12 +1,13 @@
 {
   "name": "react-native-heyzap",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A Heyzap plugin for React Native",
-  "main": "src/Heyzap.js",
+  "main": "build/Heyzap.js",
   "scripts": {
-    "test": "istanbul cover _mocha --require react-native-mock/mock.js --compilers js:babel-core/register --recursive test/*.js",
+    "test": "mocha",
     "test1": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/",
-    "build": "babel src --out-dir build"
+    "build": "babel src --out-dir build/",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,11 @@
     "commands": {
       "prelink": "node_modules/react-native-heyzap/hooks/downloadHeyzapJar.js"
     }
+  },
+  "babel": {
+    "presets": [
+      "react-native"
+    ]
   },
   "license": "MIT",
   "bugs": {
@@ -57,11 +63,12 @@
     "istanbul": "^0.4.3",
     "mocha": "^2.5.3",
     "react": "15.0.2",
-    "react-addons-test-utils": "^15.0.2",
-    "react-dom": "^15.0.2",
+    "react-addons-test-utils": "15.0.2",
+    "react-dom": "15.0.2",
     "react-native": "^0.26.2",
     "react-native-mock": "^0.2.2",
     "rewire": "^2.5.1",
-    "sinon": "^1.17.4"
+    "sinon": "^1.17.4",
+    "sinon-as-promised": "^4.0.0"
   }
 }
