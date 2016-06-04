@@ -11,7 +11,7 @@
 
 ---
 
-Adds Heyzap integrations for React Native projects on Android and iOS.
+Adds Heyzap integration to React Native on Android and iOS.
 
 ## Requirements
 
@@ -46,23 +46,57 @@ Add the following to your `index.js`:
 let Heyzap = require('react-native-heyzap');
 
 class AwesomeApp extends Component {
-  constructor(props) {
-    super(props);
-    Heyzap.initialize('your-publisher-id');
+
+  showDebugPanel() {
+    this.refs.hz.showDebugPanel();
+  }
+
+  fetchAd() {
+    this.refs.hz.fetchAd();
+  }
+
+  showAd() {
+    this.refs.hz.showAd();
+  }
+
+  render() {
+    <View>
+      <Heyzap ref="hz" publisherId='publisher-id' />
+    </View>
   }
 }
 ```
 
-You can then call any of the following methods:
+To call any methods on Heyzap, you must first retrieve its' reference as above.
+Once you have the reference, you can then call any of the following methods:
 
 ```js
 Heyzap.showDebugPanel();
+
+// These methods return promises
 Heyzap.showInterstitialAd();
 Heyzap.fetchVideoAd();
 Heyzap.showVideoAd();
 Heyzap.fetchIncentivizedAd();
 Heyzap.showIncentivizedAd();
 ```
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+
+If you discover any security related issues, please email contact@hassankhan.me instead of using the issue tracker.
+
+## Credits
+
+- [Hassan Khan][link-author]
+- [All Contributors][link-contributors]
 
 ## License
 

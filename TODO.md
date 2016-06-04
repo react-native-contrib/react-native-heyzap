@@ -5,8 +5,6 @@
 
 - Write documentation
 
-- Options (http://cocoadocs.org/docsets/Heyzap/9.5.7/Constants/HZAdOptions.html)
-
 - Error handling
     - Android
     - iOS
@@ -22,6 +20,9 @@
     - Add tests for Java
     - Rewrite tests for JS
 
+- Figure out how to make separate gradle files for when run as dependency vs when run as a project itself
+- Use rnpm hook to download iOS framework as well then make Xcode copy it to parent project
+- Add .npmignore
 - Get some sort of networks data object to return on `start`
 - Tags
 - Server-side Incentivized Callbacks
@@ -31,3 +32,5 @@
 - Test mode
 - Banner ads
 - Native ads
+
+- Turn logging off on release builds
