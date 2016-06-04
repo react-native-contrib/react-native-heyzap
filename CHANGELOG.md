@@ -21,6 +21,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ### Security
 - Nothing
 
+## 0.2.1 - 2016-06-04
+
+### Removed
+- Babel configuration from `package.json`
+
 ## 0.2.0 - 2016-06-04
 
 ### Added
