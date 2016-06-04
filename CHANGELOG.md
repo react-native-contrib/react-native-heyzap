@@ -21,6 +21,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 ### Security
 - Nothing
 
+## 0.2.2 - 2016-06-04
+
 ## 0.2.1 - 2016-06-04
 
 ### Removed
