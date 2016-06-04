@@ -20,3 +20,17 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Security
 - Nothing
+
+## 0.2.0 - 2016-06-04
+
+### Added
+- Constants now exported from native to Javascript
+- `start()` now returns network status data in the returned promise
+
+### Fixed
+- JS tests
+
+## 0.1.2 - 2016-06-02
+
+### Added
+- Initial release

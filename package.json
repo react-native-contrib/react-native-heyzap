@@ -1,6 +1,6 @@
 {
   "name": "react-native-heyzap",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A Heyzap plugin for React Native",
   "main": "build/Heyzap.js",
   "scripts": {
