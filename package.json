@@ -2,10 +2,9 @@
   "name": "react-native-heyzap",
   "version": "0.2.0",
   "description": "A Heyzap plugin for React Native",
-  "main": "build/Heyzap.js",
+  "main": "src/Heyzap.js",
   "scripts": {
-    "test": "mocha",
-    "test1": "eslint src/ hooks/ test/ && istanbul cover _mocha --recursive test/",
+    "test": "eslint src/ hooks/ test/ && mocha",
     "build": "babel src --out-dir build/",
     "prepublish": "npm run build"
   },
@@ -25,11 +24,6 @@
     "commands": {
       "prelink": "node_modules/react-native-heyzap/hooks/downloadHeyzapJar.js"
     }
-  },
-  "babel": {
-    "presets": [
-      "react-native"
-    ]
   },
   "license": "MIT",
   "bugs": {
