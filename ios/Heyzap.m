@@ -21,6 +21,14 @@ RCT_EXPORT_MODULE(Heyzap)
 
 NSString *const ERROR_DOMAIN = @"HEYZAP";
 
+- (id)init {
+  self = [super init];
+  if (self) {
+    [HeyzapAds setFramework:@"react-native"];
+  }
+  return self;
+}
+
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -104,15 +112,7 @@ RCT_EXPORT_METHOD(start
   if ([HeyzapAds isStarted]) {
     [self addObservers];
 
-    NSArray *options = [NSArray
-        arrayWithObjects:
-            [NSNumber numberWithInteger:HZAdOptionsDisableAutoPrefetching],
-            [NSNumber numberWithInteger:HZAdOptionsInstallTrackingOnly],
-            [NSNumber numberWithInteger:HZAdOptionsDisableMedation],
-            [NSNumber
-                numberWithInteger:HZAdOptionsDisableAutomaticIAPRecording],
-            [NSNumber numberWithInteger:HZAdOptionsChildDirectedAds], nil];
-    return resolve(options);
+    return resolve([self getStatus]);
   }
 
   NSString *errorMessage = @"Heyzap failed to start";
@@ -207,6 +207,31 @@ RCT_EXPORT_METHOD(showIncentivizedAd
                                 userInfo:@{
                                   @"error" : errorMessage
                                 }]);
+}
+
+#pragma mark - Private methods
+
+- (NSDictionary *)getStatus {
+
+  return @{
+    HZNetworkHeyzap : @([HeyzapAds isNetworkInitialized:HZNetworkHeyzap]),
+    HZNetworkCrossPromo :
+        @([HeyzapAds isNetworkInitialized:HZNetworkCrossPromo]),
+    HZNetworkFacebook : @([HeyzapAds isNetworkInitialized:HZNetworkFacebook]),
+    HZNetworkUnityAds : @([HeyzapAds isNetworkInitialized:HZNetworkUnityAds]),
+    HZNetworkAppLovin : @([HeyzapAds isNetworkInitialized:HZNetworkAppLovin]),
+    HZNetworkVungle : @([HeyzapAds isNetworkInitialized:HZNetworkVungle]),
+    HZNetworkChartboost :
+        @([HeyzapAds isNetworkInitialized:HZNetworkChartboost]),
+    HZNetworkAdColony : @([HeyzapAds isNetworkInitialized:HZNetworkAdColony]),
+    HZNetworkAdMob : @([HeyzapAds isNetworkInitialized:HZNetworkAdMob]),
+    HZNetworkIAd : @([HeyzapAds isNetworkInitialized:HZNetworkIAd]),
+    HZNetworkHyprMX : @([HeyzapAds isNetworkInitialized:HZNetworkHyprMX]),
+    HZNetworkHeyzapExchange :
+        @([HeyzapAds isNetworkInitialized:HZNetworkHeyzapExchange]),
+    HZNetworkLeadbolt : @([HeyzapAds isNetworkInitialized:HZNetworkLeadbolt]),
+    HZNetworkInMobi : @([HeyzapAds isNetworkInitialized:HZNetworkInMobi]),
+  };
 }
 
 #pragma mark - Observers

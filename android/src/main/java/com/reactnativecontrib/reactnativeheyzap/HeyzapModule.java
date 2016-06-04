@@ -196,6 +196,34 @@ public class HeyzapModule extends ReactContextBaseJavaModule implements Lifecycl
             promise.reject(exception);
         }
     }
+
+    private WritableMap getStatus() {
+        WritableMap status = Arguments.createMap();
+
+        status.putBoolean(HeyzapAds.Network.ADCOLONY,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.ADCOLONY));
+        status.putBoolean(HeyzapAds.Network.ADMOB,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.ADMOB));
+        status.putBoolean(HeyzapAds.Network.APPLOVIN,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.APPLOVIN));
+        status.putBoolean(HeyzapAds.Network.CHARTBOOST,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.CHARTBOOST));
+        status.putBoolean(HeyzapAds.Network.FACEBOOK,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.FACEBOOK));
+        status.putBoolean(HeyzapAds.Network.HEYZAP,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.HEYZAP));
+        status.putBoolean(HeyzapAds.Network.HYPRMX,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.HYPRMX));
+        status.putBoolean(HeyzapAds.Network.IAD,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.IAD));
+        status.putBoolean(HeyzapAds.Network.INMOBI,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.INMOBI));
+        status.putBoolean(HeyzapAds.Network.UNITYADS,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.UNITYADS));
+        status.putBoolean(HeyzapAds.Network.VUNGLE,
+                HeyzapAds.isNetworkInitialized(HeyzapAds.Network.VUNGLE));
+
+        return status;
     }
 
     @ReactMethod
