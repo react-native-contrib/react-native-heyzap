@@ -1,70 +1,78 @@
 'use strict';
 
-let chai   = require('chai');
 let rewire = require('rewire');
 let sinon = require('sinon');
-require('react-native-mock/mock');
+require('sinon-as-promised');
+
+import React from 'react-native';
+import {
+    DeviceEventEmitter,
+    NativeAppEventEmitter,
+    NativeModules,
+    Platform,
+} from 'react-native';
 import { shallow, mount, render } from 'enzyme';
+import {expect} from 'chai';
 
-let expect = chai.expect;
+let NativeHeyzapMock = {
+    start: (publisherId) => sinon.stub().resolves(true)(),
+    showDebugPanel: sinon.spy(),
+    showInterstitialAd: () => sinon.stub().resolves(true)(),
+    fetchVideoAd: () => sinon.stub().resolves(true)(),
+    showVideoAd: () => sinon.stub().resolves(true)(),
+    fetchIncentivizedAd: () => sinon.stub().resolves(true)(),
+    showIncentivizedAd: () => sinon.stub().resolves(true)(),
+};
 
-let heyzapStub = sinon.stub({
-    initialize: (publisherId) => {},
-    showDebugPanel: () => {},
-    showInterstitialAd: () => {},
-    fetchVideoAd: () => {},
-    showVideoAd: () => {},
-    fetchIncentivizedAd: () => {},
-    showIncentivizedAd: () => {},
-});
+let Heyzap = rewire('../src/Heyzap');
+Heyzap.__set__('NativeHeyzap', NativeHeyzapMock);
 
-let heyzap = rewire('../build/Heyzap');
+describe('<Heyzap/>', () => {
 
-heyzap.__set__('NativeHeyzap', heyzapStub);
-
-describe('Heyzap', () => {
-
-    it('should initialize', () => {
-        let publisherId = 'publisher-id';
-        heyzap.initialize(publisherId);
-
-        expect(heyzapStub.initialize.calledWith(publisherId)).to.be.true;
+    it('should render nothing', () => {
+        const wrapper = shallow(<Heyzap publisherId="123" />);
+        expect(wrapper.length).to.equal(1);
     });
 
     it('should show the debug panel', () => {
-        heyzap.showDebugPanel();
-
-        expect(heyzapStub.showDebugPanel.calledOnce).to.be.true;
+        const wrapper = shallow(<Heyzap publisherId="123" />);
+        wrapper.instance().showDebugPanel();
+        expect(NativeHeyzapMock.showDebugPanel.calledOnce).to.be.true;
     });
 
     it('should show an interstitial ad', () => {
-        heyzap.showInterstitialAd();
-
-        expect(heyzapStub.showInterstitialAd.calledOnce).to.be.true;
+        const wrapper = shallow(<Heyzap publisherId="123" />);
+        wrapper.instance().showInterstitialAd().then(() => {
+            expect(NativeHeyzapMock.showInterstitialAd.calledOnce).to.be.true;
+        });
     });
 
     it('should fetch a video ad', () => {
-        heyzap.fetchVideoAd();
-
-        expect(heyzapStub.fetchVideoAd.calledOnce).to.be.true;
+        const wrapper = shallow(<Heyzap publisherId="123" />);
+        wrapper.instance().fetchVideoAd().then(() => {
+            expect(NativeHeyzapMock.fetchVideoAd.calledOnce).to.be.true;
+        });
     });
 
     it('should show a video ad', () => {
-        heyzap.showVideoAd();
-
-        expect(heyzapStub.showVideoAd.calledOnce).to.be.true;
+        const wrapper = shallow(<Heyzap publisherId="123" />);
+        wrapper.instance().showVideoAd().then(() => {
+            expect(NativeHeyzapMock.showVideoAd.calledOnce).to.be.true;
+        });
     });
 
     it('should fetch an incentivized ad', () => {
-        heyzap.fetchIncentivizedAd();
-
-        expect(heyzapStub.fetchIncentivizedAd.calledOnce).to.be.true;
+        const wrapper = shallow(<Heyzap publisherId="123" />);
+        wrapper.instance().fetchIncentivizedAd().then(() => {
+            expect(NativeHeyzapMock.fetchIncentivizedAd.calledOnce).to.be.true;
+        });
     });
 
     it('should show an incentivized ad', () => {
-        heyzap.showIncentivizedAd();
-
-        expect(heyzapStub.showIncentivizedAd.calledOnce).to.be.true;
+        const wrapper = shallow(<Heyzap publisherId="123" />);
+        wrapper.instance().showIncentivizedAd().then(() => {
+            expect(NativeHeyzapMock.showIncentivizedAd.calledOnce).to.be.true;
+        });
     });
 
 });

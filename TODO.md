@@ -20,6 +20,7 @@
     - Add tests for Java
     - Rewrite tests for JS
 
+- Code coverage is not working
 - Figure out how to make separate gradle files for when run as dependency vs when run as a project itself
 - Use rnpm hook to download iOS framework as well then make Xcode copy it to parent project
 - Add .npmignore
@@ -34,3 +35,6 @@
 - Native ads
 
 - Turn logging off on release builds
+
+
+https://developer.android.com/studio/build/build-variants.html
