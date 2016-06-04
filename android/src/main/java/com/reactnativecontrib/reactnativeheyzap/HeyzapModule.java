@@ -45,6 +45,48 @@ public class HeyzapModule extends ReactContextBaseJavaModule implements Lifecycl
             .emit(eventName, params);
   }
 
+  @Override
+  public Map<String, Object> getConstants() {
+    final Map<String, Object> constants = new HashMap<>();
+
+    constants.put("NONE", HeyzapAds.NONE);
+    constants.put("DISABLE_AUTOMATIC_FETCH", HeyzapAds.DISABLE_AUTOMATIC_FETCH);
+    constants.put("INSTALL_TRACKING_ONLY", HeyzapAds.INSTALL_TRACKING_ONLY);
+    constants.put("DISABLE_MEDIATION", HeyzapAds.DISABLE_MEDIATION);
+    constants.put("NATIVE_ADS_ONLY", HeyzapAds.NATIVE_ADS_ONLY);
+    constants.put("CHILD_DIRECTED_ADVERTISING", HeyzapAds.CHILD_DIRECTED_ADVERTISING);
+
+    constants.put("HEYZAP", HeyzapAds.Network.HEYZAP);
+    constants.put("FACEBOOK", HeyzapAds.Network.FACEBOOK);
+    constants.put("UNITYADS", HeyzapAds.Network.UNITYADS);
+    constants.put("APPLOVIN", HeyzapAds.Network.APPLOVIN);
+    constants.put("VUNGLE", HeyzapAds.Network.VUNGLE);
+    constants.put("CHARTBOOST", HeyzapAds.Network.CHARTBOOST);
+    constants.put("ADCOLONY", HeyzapAds.Network.ADCOLONY);
+    constants.put("ADMOB", HeyzapAds.Network.ADMOB);
+    constants.put("IAD", HeyzapAds.Network.IAD);
+    constants.put("HYPRMX", HeyzapAds.Network.HYPRMX);
+    constants.put("INMOBI", HeyzapAds.Network.INMOBI);
+
+    constants.put("INITIALIZED", HeyzapAds.NetworkCallback.INITIALIZED);
+    constants.put("SHOW", HeyzapAds.NetworkCallback.SHOW);
+    constants.put("AVAILABLE", HeyzapAds.NetworkCallback.AVAILABLE);
+    constants.put("HIDE", HeyzapAds.NetworkCallback.HIDE);
+    constants.put("FETCH_FAILED", HeyzapAds.NetworkCallback.FETCH_FAILED);
+    constants.put("CLICK", HeyzapAds.NetworkCallback.CLICK);
+    constants.put("DISMISS", HeyzapAds.NetworkCallback.DISMISS);
+    constants.put("INCENTIVIZED_RESULT_COMPLETE",
+            HeyzapAds.NetworkCallback.INCENTIVIZED_RESULT_COMPLETE);
+    constants.put("INCENTIVIZED_RESULT_INCOMPLETE",
+            HeyzapAds.NetworkCallback.INCENTIVIZED_RESULT_INCOMPLETE);
+    constants.put("AUDIO_STARTING", HeyzapAds.NetworkCallback.AUDIO_STARTING);
+    constants.put("AUDIO_FINISHED", HeyzapAds.NetworkCallback.AUDIO_FINISHED);
+    constants.put("LEAVE_APPLICATION", HeyzapAds.NetworkCallback.LEAVE_APPLICATION);
+    constants.put("DISPLAY_FAILED", HeyzapAds.NetworkCallback.DISPLAY_FAILED);
+
+    return constants;
+  }
+
   /**
    * Adds Heyzap listeners
    */
